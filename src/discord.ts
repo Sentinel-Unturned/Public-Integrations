@@ -188,30 +188,87 @@ export function buildMuteRemovedEmbed(payload: MuteEventPayload): DiscordWebhook
 }
 
 /**
- * Sends a Discord webhook payload to the specified URL.
+ * Options for retry behavior.
+ */
+export interface RetryOptions {
+  maxAttempts?: number;
+  baseDelayMs?: number;
+}
+
+/**
+ * Result of a Discord webhook send operation.
+ */
+export interface WebhookResult {
+  success: boolean;
+  error?: string;
+  attempts: number;
+}
+
+/**
+ * Sleep for specified milliseconds.
+ */
+function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+/**
+ * Determines if an HTTP status code should trigger a retry.
+ * Retries on: 5xx server errors, 429 rate limit
+ * No retry on: 4xx client errors (except 429)
+ */
+function shouldRetry(status: number): boolean {
+  return status === 429 || status >= 500;
+}
+
+/**
+ * Sends a Discord webhook payload to the specified URL with retry logic.
  * @param url - Discord webhook URL
  * @param payload - Discord webhook payload
- * @returns Success status and optional error message
+ * @param options - Retry options (maxAttempts defaults to 3, baseDelayMs defaults to 1000)
+ * @returns Success status, optional error message, and number of attempts
  */
 export async function sendDiscordWebhook(
   url: string,
-  payload: DiscordWebhookPayload
-): Promise<{ success: boolean; error?: string }> {
-  try {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
+  payload: DiscordWebhookPayload,
+  options?: RetryOptions
+): Promise<WebhookResult> {
+  const maxAttempts = options?.maxAttempts ?? 3;
+  const baseDelayMs = options?.baseDelayMs ?? 1000;
 
-    if (!response.ok) {
+  let lastError = '';
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        return { success: true, attempts: attempt };
+      }
+
       const text = await response.text().catch(() => 'Unknown error');
-      return { success: false, error: `HTTP ${response.status}: ${text}` };
+      lastError = `HTTP ${response.status}: ${text}`;
+
+      // Don't retry on 4xx client errors (except 429 rate limit)
+      if (!shouldRetry(response.status)) {
+        return { success: false, error: lastError, attempts: attempt };
+      }
+    } catch (err) {
+      // Network errors are retryable
+      lastError = err instanceof Error ? err.message : 'Unknown error';
     }
 
-    return { success: true };
-  } catch (err) {
-    const message = err instanceof Error ? err.message : 'Unknown error';
-    return { success: false, error: message };
+    // Wait before next attempt (exponential backoff: 0, 1s, 2s, ...)
+    if (attempt < maxAttempts) {
+      const delay = baseDelayMs * Math.pow(2, attempt - 2);
+      if (delay > 0) {
+        await sleep(delay);
+      }
+    }
   }
+
+  return { success: false, error: lastError, attempts: maxAttempts };
 }
