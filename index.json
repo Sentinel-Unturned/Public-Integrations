@@ -2,7 +2,7 @@
     "integrations": [
     {
       "name": "discord-moderation-webhooks",
-      "manifest": "https://github.com/Sentinel-Unturned/Public-Integrations/integrations/discord-moderation-webhooks/manifest.json"
+      "manifest": "https://github.com/Sentinel-Unturned/Public-Integrations/blob/main/integrations/discord-moderation-webhooks/manifest.json"
     }
   ]
 }
