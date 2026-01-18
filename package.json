@@ -1,0 +1,14 @@
+{
+  "name": "sentinel-moderation-webhooks",
+  "version": "1.0.0",
+  "description": "Discord webhook integration for Sentinel moderation events",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "keywords": ["sentinel", "unturned", "discord", "webhook", "moderation"],
+  "author": "",
+  "license": "MIT"
+}
