@@ -6,7 +6,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "validate": "node -e \"const m = require('./manifest.json'); const { validateManifest } = require('@sentinel-unturned/integration-sdk'); const r = validateManifest(m); if (!r.success) { console.error(JSON.stringify(r.errors, null, 2)); process.exit(1); } console.log('Manifest valid');\""
   },
   "keywords": [
     "sentinel",
