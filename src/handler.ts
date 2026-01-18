@@ -8,6 +8,15 @@ import {
   type WebhookResponse,
 } from '@sentinel-unturned/integration-sdk';
 import type { HandlerContext, IntegrationConfig } from './types';
+import {
+  buildBanCreatedEmbed,
+  buildBanRemovedEmbed,
+  buildKickCreatedEmbed,
+  buildWarnCreatedEmbed,
+  buildMuteCreatedEmbed,
+  buildMuteRemovedEmbed,
+  sendDiscordWebhook,
+} from './discord';
 
 /**
  * Maps event types to their corresponding config field names.
@@ -32,44 +41,79 @@ export function createHandler(ctx: HandlerContext) {
     [EVENTS.MODERATION.BAN_CREATED]: async (payload) => {
       const url = ctx.config.banCreatedWebhookUrl;
       if (!url) return successResponse('Webhook URL not configured, skipping');
-      // Phase 4: Send to Discord
-      console.log('[ban.created]', payload.data.player.name);
-      return successResponse('Processed ban.created');
+
+      const embed = buildBanCreatedEmbed(payload.data);
+      const result = await sendDiscordWebhook(url, embed);
+
+      if (!result.success) {
+        return errorResponse(`Discord webhook failed: ${result.error}`);
+      }
+      return successResponse('Sent to Discord');
     },
 
     [EVENTS.MODERATION.BAN_REMOVED]: async (payload) => {
       const url = ctx.config.banRemovedWebhookUrl;
       if (!url) return successResponse('Webhook URL not configured, skipping');
-      console.log('[ban.removed]', payload.data.player.name);
-      return successResponse('Processed ban.removed');
+
+      const embed = buildBanRemovedEmbed(payload.data);
+      const result = await sendDiscordWebhook(url, embed);
+
+      if (!result.success) {
+        return errorResponse(`Discord webhook failed: ${result.error}`);
+      }
+      return successResponse('Sent to Discord');
     },
 
     [EVENTS.MODERATION.KICK_CREATED]: async (payload) => {
       const url = ctx.config.kickCreatedWebhookUrl;
       if (!url) return successResponse('Webhook URL not configured, skipping');
-      console.log('[kick.created]', payload.data.player.name);
-      return successResponse('Processed kick.created');
+
+      const embed = buildKickCreatedEmbed(payload.data);
+      const result = await sendDiscordWebhook(url, embed);
+
+      if (!result.success) {
+        return errorResponse(`Discord webhook failed: ${result.error}`);
+      }
+      return successResponse('Sent to Discord');
     },
 
     [EVENTS.MODERATION.WARN_CREATED]: async (payload) => {
       const url = ctx.config.warnCreatedWebhookUrl;
       if (!url) return successResponse('Webhook URL not configured, skipping');
-      console.log('[warn.created]', payload.data.player.name);
-      return successResponse('Processed warn.created');
+
+      const embed = buildWarnCreatedEmbed(payload.data);
+      const result = await sendDiscordWebhook(url, embed);
+
+      if (!result.success) {
+        return errorResponse(`Discord webhook failed: ${result.error}`);
+      }
+      return successResponse('Sent to Discord');
     },
 
     [EVENTS.MODERATION.MUTE_CREATED]: async (payload) => {
       const url = ctx.config.muteCreatedWebhookUrl;
       if (!url) return successResponse('Webhook URL not configured, skipping');
-      console.log('[mute.created]', payload.data.player.name);
-      return successResponse('Processed mute.created');
+
+      const embed = buildMuteCreatedEmbed(payload.data);
+      const result = await sendDiscordWebhook(url, embed);
+
+      if (!result.success) {
+        return errorResponse(`Discord webhook failed: ${result.error}`);
+      }
+      return successResponse('Sent to Discord');
     },
 
     [EVENTS.MODERATION.MUTE_REMOVED]: async (payload) => {
       const url = ctx.config.muteRemovedWebhookUrl;
       if (!url) return successResponse('Webhook URL not configured, skipping');
-      console.log('[mute.removed]', payload.data.player.name);
-      return successResponse('Processed mute.removed');
+
+      const embed = buildMuteRemovedEmbed(payload.data);
+      const result = await sendDiscordWebhook(url, embed);
+
+      if (!result.success) {
+        return errorResponse(`Discord webhook failed: ${result.error}`);
+      }
+      return successResponse('Sent to Discord');
     },
   });
 
