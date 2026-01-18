@@ -1,0 +1,61 @@
+{
+  "name": "discord-moderation-webhooks",
+  "slug": "discord-moderation-webhooks",
+  "displayName": "Discord Moderation Webhooks",
+  "description": "Send moderation events (bans, kicks, warns, mutes) to Discord channels via webhooks with rich embeds.",
+  "version": "1.0.0",
+  "author": "Sentinel Team",
+  "license": "MIT",
+  "scope": "organization",
+  "icon": "Shield",
+  "category": "Notifications",
+  "tags": ["discord", "moderation", "webhook", "notifications"],
+  "events": {
+    "subscribes": [
+      "moderation.ban.created",
+      "moderation.ban.removed",
+      "moderation.kick.created",
+      "moderation.warn.created",
+      "moderation.mute.created",
+      "moderation.mute.removed"
+    ]
+  },
+  "config": {
+    "banCreatedWebhookUrl": {
+      "type": "string",
+      "required": false,
+      "description": "Discord webhook URL for ban notifications",
+      "placeholder": "https://discord.com/api/webhooks/..."
+    },
+    "banRemovedWebhookUrl": {
+      "type": "string",
+      "required": false,
+      "description": "Discord webhook URL for unban notifications",
+      "placeholder": "https://discord.com/api/webhooks/..."
+    },
+    "kickCreatedWebhookUrl": {
+      "type": "string",
+      "required": false,
+      "description": "Discord webhook URL for kick notifications",
+      "placeholder": "https://discord.com/api/webhooks/..."
+    },
+    "warnCreatedWebhookUrl": {
+      "type": "string",
+      "required": false,
+      "description": "Discord webhook URL for warning notifications",
+      "placeholder": "https://discord.com/api/webhooks/..."
+    },
+    "muteCreatedWebhookUrl": {
+      "type": "string",
+      "required": false,
+      "description": "Discord webhook URL for mute notifications",
+      "placeholder": "https://discord.com/api/webhooks/..."
+    },
+    "muteRemovedWebhookUrl": {
+      "type": "string",
+      "required": false,
+      "description": "Discord webhook URL for unmute notifications",
+      "placeholder": "https://discord.com/api/webhooks/..."
+    }
+  }
+}
