@@ -16,7 +16,24 @@ import {
   buildMuteCreatedEmbed,
   buildMuteRemovedEmbed,
   sendDiscordWebhook,
+  type WebhookResult,
 } from './discord';
+
+/**
+ * Formats success message, including attempt count if retries occurred.
+ */
+function formatSuccessMessage(result: WebhookResult): string {
+  return result.attempts > 1
+    ? `Sent to Discord (${result.attempts} attempts)`
+    : 'Sent to Discord';
+}
+
+/**
+ * Formats error message with attempt count.
+ */
+function formatErrorMessage(result: WebhookResult): string {
+  return `Discord webhook failed after ${result.attempts} attempt${result.attempts !== 1 ? 's' : ''}: ${result.error}`;
+}
 
 /**
  * Maps event types to their corresponding config field names.
@@ -46,9 +63,9 @@ export function createHandler(ctx: HandlerContext) {
       const result = await sendDiscordWebhook(url, embed);
 
       if (!result.success) {
-        return errorResponse(`Discord webhook failed: ${result.error}`);
+        return errorResponse(formatErrorMessage(result));
       }
-      return successResponse('Sent to Discord');
+      return successResponse(formatSuccessMessage(result));
     },
 
     [EVENTS.MODERATION.BAN_REMOVED]: async (payload) => {
@@ -59,9 +76,9 @@ export function createHandler(ctx: HandlerContext) {
       const result = await sendDiscordWebhook(url, embed);
 
       if (!result.success) {
-        return errorResponse(`Discord webhook failed: ${result.error}`);
+        return errorResponse(formatErrorMessage(result));
       }
-      return successResponse('Sent to Discord');
+      return successResponse(formatSuccessMessage(result));
     },
 
     [EVENTS.MODERATION.KICK_CREATED]: async (payload) => {
@@ -72,9 +89,9 @@ export function createHandler(ctx: HandlerContext) {
       const result = await sendDiscordWebhook(url, embed);
 
       if (!result.success) {
-        return errorResponse(`Discord webhook failed: ${result.error}`);
+        return errorResponse(formatErrorMessage(result));
       }
-      return successResponse('Sent to Discord');
+      return successResponse(formatSuccessMessage(result));
     },
 
     [EVENTS.MODERATION.WARN_CREATED]: async (payload) => {
@@ -85,9 +102,9 @@ export function createHandler(ctx: HandlerContext) {
       const result = await sendDiscordWebhook(url, embed);
 
       if (!result.success) {
-        return errorResponse(`Discord webhook failed: ${result.error}`);
+        return errorResponse(formatErrorMessage(result));
       }
-      return successResponse('Sent to Discord');
+      return successResponse(formatSuccessMessage(result));
     },
 
     [EVENTS.MODERATION.MUTE_CREATED]: async (payload) => {
@@ -98,9 +115,9 @@ export function createHandler(ctx: HandlerContext) {
       const result = await sendDiscordWebhook(url, embed);
 
       if (!result.success) {
-        return errorResponse(`Discord webhook failed: ${result.error}`);
+        return errorResponse(formatErrorMessage(result));
       }
-      return successResponse('Sent to Discord');
+      return successResponse(formatSuccessMessage(result));
     },
 
     [EVENTS.MODERATION.MUTE_REMOVED]: async (payload) => {
@@ -111,9 +128,9 @@ export function createHandler(ctx: HandlerContext) {
       const result = await sendDiscordWebhook(url, embed);
 
       if (!result.success) {
-        return errorResponse(`Discord webhook failed: ${result.error}`);
+        return errorResponse(formatErrorMessage(result));
       }
-      return successResponse('Sent to Discord');
+      return successResponse(formatSuccessMessage(result));
     },
   });
 
