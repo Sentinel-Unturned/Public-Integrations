@@ -1,0 +1,57 @@
+{
+  "name": "discord-player-activity",
+  "slug": "discord-player-activity",
+  "displayName": "Discord Player Activity",
+  "description": "Notify Discord when players join or leave game servers with customizable embeds.",
+  "version": "1.0.0",
+  "author": "Sentinel Team",
+  "license": "MIT",
+  "scope": "organization",
+  "icon": "Users",
+  "category": "Notifications",
+  "tags": ["discord", "player", "webhook", "notifications", "activity"],
+  "events": {
+    "subscribes": [
+      "player.connected",
+      "player.disconnected"
+    ]
+  },
+  "config": {
+    "playerConnectedWebhookUrl": {
+      "type": "string",
+      "required": false,
+      "description": "Discord webhook URL for player join notifications",
+      "placeholder": "https://discord.com/api/webhooks/..."
+    },
+    "playerDisconnectedWebhookUrl": {
+      "type": "string",
+      "required": false,
+      "description": "Discord webhook URL for player leave notifications",
+      "placeholder": "https://discord.com/api/webhooks/..."
+    },
+    "joinEmbedColor": {
+      "type": "number",
+      "required": false,
+      "default": 5763719,
+      "description": "Embed color for join notifications (decimal, default: green 0x57F287)"
+    },
+    "leaveEmbedColor": {
+      "type": "number",
+      "required": false,
+      "default": 15548997,
+      "description": "Embed color for leave notifications (decimal, default: red 0xED4245)"
+    },
+    "showCountryFlag": {
+      "type": "boolean",
+      "required": false,
+      "default": true,
+      "description": "Show country flag emoji based on player's country code"
+    },
+    "showSteamId": {
+      "type": "boolean",
+      "required": false,
+      "default": true,
+      "description": "Include Steam64 ID in notifications"
+    }
+  }
+}

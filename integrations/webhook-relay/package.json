@@ -1,0 +1,30 @@
+{
+  "name": "sentinel-webhook-relay",
+  "version": "1.0.0",
+  "description": "Generic webhook relay integration for Sentinel events",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "validate": "node -e \"const m = require('./manifest.json'); const { validateManifest } = require('@sentinel-unturned/integration-sdk'); const r = validateManifest(m); if (!r.success) { console.error(JSON.stringify(r.errors, null, 2)); process.exit(1); } console.log('Manifest valid');\""
+  },
+  "keywords": [
+    "sentinel",
+    "unturned",
+    "webhook",
+    "relay",
+    "integration",
+    "automation"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@sentinel-unturned/integration-sdk": "^1.0.0",
+    "zod": "^4.3.5"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.9",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "name": "discord-server-status",
+  "slug": "discord-server-status",
+  "displayName": "Discord Server Status",
+  "description": "Post game server status updates to Discord including online/offline notifications and player count changes.",
+  "version": "1.0.0",
+  "author": "Sentinel Team",
+  "license": "MIT",
+  "scope": "organization",
+  "icon": "Server",
+  "category": "Notifications",
+  "tags": ["discord", "server", "webhook", "notifications", "status", "monitoring"],
+  "events": {
+    "subscribes": [
+      "gameserver.connected",
+      "gameserver.disconnected",
+      "gameserver.updated"
+    ]
+  },
+  "config": {
+    "webhookUrl": {
+      "type": "string",
+      "required": true,
+      "description": "Discord webhook URL for server status notifications",
+      "placeholder": "https://discord.com/api/webhooks/..."
+    },
+    "notifyOnConnect": {
+      "type": "boolean",
+      "required": false,
+      "default": true,
+      "description": "Send notification when server comes online"
+    },
+    "notifyOnDisconnect": {
+      "type": "boolean",
+      "required": false,
+      "default": true,
+      "description": "Send notification when server goes offline"
+    },
+    "notifyOnPlayerCountChange": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "description": "Send notification when player count changes"
+    },
+    "playerCountThreshold": {
+      "type": "number",
+      "required": false,
+      "default": 0,
+      "description": "Minimum player count change to trigger notification (0 = every change)",
+      "min": 0,
+      "max": 100
+    },
+    "onlineColor": {
+      "type": "number",
+      "required": false,
+      "default": 5763719,
+      "description": "Embed color for online status (decimal, default: green 0x57F287)"
+    },
+    "offlineColor": {
+      "type": "number",
+      "required": false,
+      "default": 15548997,
+      "description": "Embed color for offline status (decimal, default: red 0xED4245)"
+    },
+    "updateColor": {
+      "type": "number",
+      "required": false,
+      "default": 5793266,
+      "description": "Embed color for update notifications (decimal, default: blue 0x5865F2)"
+    },
+    "showServerAddress": {
+      "type": "boolean",
+      "required": false,
+      "default": true,
+      "description": "Include server address and port in notifications"
+    },
+    "showMap": {
+      "type": "boolean",
+      "required": false,
+      "default": true,
+      "description": "Include current map name in notifications"
+    }
+  }
+}

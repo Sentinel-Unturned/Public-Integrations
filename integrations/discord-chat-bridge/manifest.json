@@ -1,0 +1,69 @@
+{
+  "name": "discord-chat-bridge",
+  "slug": "discord-chat-bridge",
+  "displayName": "Discord Chat Bridge",
+  "description": "Forward in-game chat messages to Discord with channel filtering and customizable formatting.",
+  "version": "1.0.0",
+  "author": "Sentinel Team",
+  "license": "MIT",
+  "scope": "organization",
+  "icon": "MessageSquare",
+  "category": "Notifications",
+  "tags": ["discord", "chat", "webhook", "notifications", "bridge"],
+  "events": {
+    "subscribes": [
+      "chat.message"
+    ]
+  },
+  "config": {
+    "webhookUrl": {
+      "type": "string",
+      "required": true,
+      "description": "Discord webhook URL for chat messages",
+      "placeholder": "https://discord.com/api/webhooks/..."
+    },
+    "channelFilter": {
+      "type": "array",
+      "required": false,
+      "default": ["global", "group", "local", "admin"],
+      "description": "Chat channels to forward (global, group, local, admin)",
+      "enum": ["global", "group", "local", "admin"]
+    },
+    "messagePrefix": {
+      "type": "string",
+      "required": false,
+      "description": "Only forward messages starting with this prefix (leave empty for all messages)",
+      "placeholder": "!"
+    },
+    "stripPrefix": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "description": "Remove the prefix from forwarded messages"
+    },
+    "showChannelIndicator": {
+      "type": "boolean",
+      "required": false,
+      "default": true,
+      "description": "Show chat channel indicator (e.g., [Global], [Group])"
+    },
+    "showSteamId": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "description": "Include Steam64 ID in messages"
+    },
+    "embedMode": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "description": "Use rich embeds instead of simple messages"
+    },
+    "embedColor": {
+      "type": "number",
+      "required": false,
+      "default": 5793266,
+      "description": "Embed color when embed mode is enabled (decimal, default: blue 0x5865F2)"
+    }
+  }
+}

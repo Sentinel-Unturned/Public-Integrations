@@ -1,0 +1,84 @@
+{
+  "name": "webhook-relay",
+  "slug": "webhook-relay",
+  "displayName": "Webhook Relay",
+  "description": "Generic webhook relay to forward Sentinel events to custom endpoints with configurable event patterns and retry settings.",
+  "version": "1.0.0",
+  "author": "Sentinel Team",
+  "license": "MIT",
+  "scope": "organization",
+  "icon": "Webhook",
+  "category": "Developer Tools",
+  "tags": ["webhook", "relay", "integration", "api", "automation"],
+  "events": {
+    "subscribes": [
+      "*"
+    ]
+  },
+  "config": {
+    "targetUrl": {
+      "type": "string",
+      "required": true,
+      "description": "Target webhook URL to forward events to",
+      "placeholder": "https://your-server.com/webhook"
+    },
+    "eventPatterns": {
+      "type": "array",
+      "required": false,
+      "default": ["*"],
+      "description": "Event patterns to forward (e.g., 'player.*', 'moderation.ban.*', '*')"
+    },
+    "customHeaders": {
+      "type": "object",
+      "required": false,
+      "description": "Custom headers to include in forwarded requests (JSON object)"
+    },
+    "includeOriginalHeaders": {
+      "type": "boolean",
+      "required": false,
+      "default": true,
+      "description": "Include original Sentinel headers (X-Sentinel-*) in forwarded requests"
+    },
+    "transformPayload": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "description": "Wrap payload in envelope with metadata (event type, timestamp, organization)"
+    },
+    "maxRetries": {
+      "type": "number",
+      "required": false,
+      "default": 3,
+      "description": "Maximum number of retry attempts on failure",
+      "min": 1,
+      "max": 10
+    },
+    "retryDelayMs": {
+      "type": "number",
+      "required": false,
+      "default": 1000,
+      "description": "Base delay in milliseconds between retries (exponential backoff)",
+      "min": 100,
+      "max": 30000
+    },
+    "timeoutMs": {
+      "type": "number",
+      "required": false,
+      "default": 30000,
+      "description": "Request timeout in milliseconds",
+      "min": 1000,
+      "max": 60000
+    },
+    "secretHeader": {
+      "type": "string",
+      "required": false,
+      "description": "Header name for authentication secret (e.g., 'X-Webhook-Secret')",
+      "placeholder": "X-Webhook-Secret"
+    },
+    "secretValue": {
+      "type": "string",
+      "required": false,
+      "description": "Secret value to send in the authentication header"
+    }
+  }
+}

@@ -1,8 +1,24 @@
 {
-    "integrations": [
+  "integrations": [
     {
       "name": "discord-moderation-webhooks",
       "manifest": "https://raw.githubusercontent.com/Sentinel-Unturned/Public-Integrations/refs/heads/main/integrations/discord-moderation-webhooks/manifest.json"
+    },
+    {
+      "name": "discord-player-activity",
+      "manifest": "https://raw.githubusercontent.com/Sentinel-Unturned/Public-Integrations/refs/heads/main/integrations/discord-player-activity/manifest.json"
+    },
+    {
+      "name": "discord-chat-bridge",
+      "manifest": "https://raw.githubusercontent.com/Sentinel-Unturned/Public-Integrations/refs/heads/main/integrations/discord-chat-bridge/manifest.json"
+    },
+    {
+      "name": "discord-server-status",
+      "manifest": "https://raw.githubusercontent.com/Sentinel-Unturned/Public-Integrations/refs/heads/main/integrations/discord-server-status/manifest.json"
+    },
+    {
+      "name": "webhook-relay",
+      "manifest": "https://raw.githubusercontent.com/Sentinel-Unturned/Public-Integrations/refs/heads/main/integrations/webhook-relay/manifest.json"
     }
   ]
 }
